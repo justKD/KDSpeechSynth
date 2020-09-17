@@ -21,7 +21,7 @@ export type SpeechSynthParams = {
   onVoicesChanged?: (e: any) => void;
 };
 
-export class SpeechSynth {
+export class KDSpeechSynth {
   synth: () => SpeechSynthesis;
 
   voices: () => string[];
@@ -96,7 +96,7 @@ export class SpeechSynth {
       history: new HistoryArray(),
       volume: 1.0, // 0 - 1
       rate: 1.0, // 0.1 - 10
-      pitch: 1.0 // 0 - 2
+      pitch: 1.0, // 0 - 2
     };
 
     const props: {
@@ -120,7 +120,7 @@ export class SpeechSynth {
       onResume: () => {},
       onMark: () => {},
       onBoundary: () => {},
-      onVoicesChanged: () => {}
+      onVoicesChanged: () => {},
     };
 
     const _: {
@@ -163,7 +163,7 @@ export class SpeechSynth {
 
       getVoices: () => {
         if (check.exists(props.synth)) {
-          return props.synth.getVoices().sort(function(a, b) {
+          return props.synth.getVoices().sort(function (a, b) {
             const aname = a.name.toUpperCase();
             const bname = b.name.toUpperCase();
             if (aname < bname) return -1;
@@ -176,7 +176,7 @@ export class SpeechSynth {
       },
 
       listVoices: () => {
-        const voices: string[] = props.voices.map(voice => {
+        const voices: string[] = props.voices.map((voice) => {
           let text = `${voice.name} (${voice.lang})`;
           if (voice.default) text += " -- DEFAULT";
           return text;
@@ -184,33 +184,33 @@ export class SpeechSynth {
         return voices;
       },
 
-      voice: voice => {
+      voice: (voice) => {
         if (check.is.safeInteger(voice)) state.voice = voice as number;
         return state.voice;
       },
 
-      rate: rate => {
+      rate: (rate) => {
         if (check.is.safeNumber(rate)) {
           state.rate = Numbers.clip(rate as number, [0.1, 10]);
         }
         return state.rate;
       },
 
-      pitch: pitch => {
+      pitch: (pitch) => {
         if (check.is.safeNumber(pitch)) {
           state.pitch = Numbers.clip(pitch as number, [0, 2]);
         }
         return state.pitch;
       },
 
-      volume: volume => {
+      volume: (volume) => {
         if (check.is.safeNumber(volume)) {
           state.volume = Numbers.clip(volume as number, [0, 1]);
         }
         return state.volume;
       },
 
-      text: text => {
+      text: (text) => {
         if (check.is.string(text)) state.text = text as string;
         return state.text;
       },
@@ -271,7 +271,7 @@ export class SpeechSynth {
 
           utterance.onstart = props.onSpeakStart;
           utterance.onend = props.onSpeakEnd;
-          utterance.onerror = e => {
+          utterance.onerror = (e) => {
             console.error(`SpeechSynthesisUtterance.onerror - ${e.error}`);
             props.onError(e);
           };
@@ -287,35 +287,35 @@ export class SpeechSynth {
         props.synth.speak(utterThis);
       },
 
-      onSpeakEnd: callback => {
+      onSpeakEnd: (callback) => {
         if (check.is.function(callback)) props.onSpeakEnd = callback;
       },
 
-      onSpeakStart: callback => {
+      onSpeakStart: (callback) => {
         if (check.is.function(callback)) props.onSpeakStart = callback;
       },
 
-      onError: callback => {
+      onError: (callback) => {
         if (check.is.function(callback)) props.onError = callback;
       },
-      onPause: callback => {
+      onPause: (callback) => {
         if (check.is.function(callback)) props.onPause = callback;
       },
-      onResume: callback => {
+      onResume: (callback) => {
         if (check.is.function(callback)) props.onResume = callback;
       },
-      onMark: callback => {
+      onMark: (callback) => {
         if (check.is.function(callback)) props.onMark = callback;
       },
-      onBoundary: callback => {
+      onBoundary: (callback) => {
         if (check.is.function(callback)) props.onBoundary = callback;
       },
 
-      onVoicesChanged: callback => {
+      onVoicesChanged: (callback) => {
         if (check.is.function(callback)) {
           if (check.exists(props.synth)) {
             props.onVoicesChanged = callback;
-            props.synth.onvoiceschanged = e => {
+            props.synth.onvoiceschanged = (e) => {
               _.updateVoices();
               props.onVoicesChanged(e);
             };
@@ -333,7 +333,7 @@ export class SpeechSynth {
       resume: () => props.synth.resume(),
 
       history: () => Array.from(state.history),
-      maxHistory: max => {
+      maxHistory: (max) => {
         if (typeof max === "number") {
           state.history.max(max);
         }
@@ -341,17 +341,17 @@ export class SpeechSynth {
       },
       clearHistory: () => {
         state.history = new HistoryArray();
-      }
+      },
     };
 
     this.synth = () => props.synth;
     this.voices = () => _.listVoices();
-    this.voice = voice => _.voice(voice);
+    this.voice = (voice) => _.voice(voice);
 
-    this.text = text => _.text(text);
-    this.rate = rate => _.rate(rate);
-    this.pitch = pitch => _.pitch(pitch);
-    this.volume = volume => _.volume(volume);
+    this.text = (text) => _.text(text);
+    this.rate = (rate) => _.rate(rate);
+    this.pitch = (pitch) => _.pitch(pitch);
+    this.volume = (volume) => _.volume(volume);
 
     this.isReady = () => _.isReady();
     this.isSpeaking = () => _.isSpeaking();
@@ -363,16 +363,16 @@ export class SpeechSynth {
     this.pause = () => _.pause();
     this.resume = () => _.resume();
 
-    this.onSpeakStart = callback => _.onSpeakStart(callback);
-    this.onSpeakEnd = callback => _.onSpeakEnd(callback);
-    this.onError = callback => _.onError(callback);
-    this.onPause = callback => _.onPause(callback);
-    this.onResume = callback => _.onResume(callback);
-    this.onMark = callback => _.onMark(callback);
-    this.onBoundary = callback => _.onBoundary(callback);
-    this.onVoicesChanged = callback => _.onVoicesChanged(callback);
+    this.onSpeakStart = (callback) => _.onSpeakStart(callback);
+    this.onSpeakEnd = (callback) => _.onSpeakEnd(callback);
+    this.onError = (callback) => _.onError(callback);
+    this.onPause = (callback) => _.onPause(callback);
+    this.onResume = (callback) => _.onResume(callback);
+    this.onMark = (callback) => _.onMark(callback);
+    this.onBoundary = (callback) => _.onBoundary(callback);
+    this.onVoicesChanged = (callback) => _.onVoicesChanged(callback);
 
-    this.maxHistory = size => _.maxHistory();
+    this.maxHistory = (size) => _.maxHistory();
     this.history = () => _.history();
     this.clearHistory = () => _.clearHistory();
 
@@ -404,13 +404,13 @@ export class SpeechSynth {
 
       handleParams: () => {
         if (typeof params === "object") {
-          Object.keys(params).forEach(paramkey => {
-            Object.keys(state).forEach(statekey => {
+          Object.keys(params).forEach((paramkey) => {
+            Object.keys(state).forEach((statekey) => {
               if (paramkey === statekey) {
                 (state as any)[statekey] = (params as any)[paramkey];
               }
             });
-            Object.keys(props).forEach(propskey => {
+            Object.keys(props).forEach((propskey) => {
               if (paramkey === propskey) {
                 (props as any)[propskey] = (params as any)[paramkey];
               }
@@ -420,11 +420,11 @@ export class SpeechSynth {
       },
 
       readOnly: () => {
-        Object.keys(this).forEach(key => {
+        Object.keys(this).forEach((key) => {
           Object.defineProperty(this, key, {
             value: (this as any)[key],
             writable: false,
-            enumerable: true
+            enumerable: true,
           });
         });
       },
@@ -443,11 +443,11 @@ export class SpeechSynth {
             callback: () => {
               tryAgain.qualifier = state.ready;
               (params as any)[onReadyKey]();
-            }
+            },
           });
           tryAgain.run();
         }
-      }
+      },
     };
 
     init.run();

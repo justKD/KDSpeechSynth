@@ -1,4 +1,4 @@
-import { SpeechSynth } from "./SpeechSynth";
+import { KDSpeechSynth } from "./KDSpeechSynth";
 
 /*
 export type KDSpeechSynthParams = {
@@ -20,7 +20,7 @@ export type KDSpeechSynthParams = {
 };
 */
 
-const synth = new SpeechSynth({
+const synth = new KDSpeechSynth({
   text: "text",
   voice: 38,
   rate: 0.75,
