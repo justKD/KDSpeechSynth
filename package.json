@@ -1,7 +1,7 @@
 {
-  "name": "KDSpeechSynthJS",
+  "name": "kdspeechsynthjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "KDSpeechSynthJS is a Typescript class simplifying the use of Web Speech API.",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
