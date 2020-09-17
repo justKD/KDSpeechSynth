@@ -28,3 +28,8 @@ const synth = new KDSpeechSynth({
   onSpeakStart: (e: any) => console.log("start"),
   onSpeakEnd: (e: any) => console.log("end"),
 });
+
+document.getElementsByTagName("button")[0].onclick = () => {
+  synth.speak();
+  console.log(synth.history());
+};
