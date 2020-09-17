@@ -3,8 +3,8 @@ export class HistoryArray extends Array {
   push: (...items: any) => number;
   constructor() {
     super();
-    let max = 10;
-    this.max = size => {
+    let max = Number.MAX_SAFE_INTEGER;
+    this.max = (size) => {
       if (Number.isSafeInteger(size as number)) max = size as number;
       return max;
     };

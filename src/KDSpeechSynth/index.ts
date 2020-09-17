@@ -3,7 +3,7 @@ import { TryAgainLoop } from "./TryAgainLoop";
 import { check } from "./Check";
 import { HistoryArray } from "./HistoryArray";
 
-export type SpeechSynthParams = {
+export type KDSpeechSynthParams = {
   voice?: number;
   text?: string;
   rate?: number; // 0.1 - 10
@@ -80,7 +80,7 @@ export class KDSpeechSynth {
    *  };
    * ```
    */
-  constructor(params?: SpeechSynthParams) {
+  constructor(params?: KDSpeechSynthParams) {
     const state: {
       ready: boolean;
       text: string;
@@ -372,7 +372,7 @@ export class KDSpeechSynth {
     this.onBoundary = (callback) => _.onBoundary(callback);
     this.onVoicesChanged = (callback) => _.onVoicesChanged(callback);
 
-    this.maxHistory = (size) => _.maxHistory();
+    this.maxHistory = (size) => _.maxHistory(size);
     this.history = () => _.history();
     this.clearHistory = () => _.clearHistory();
 

@@ -21,14 +21,10 @@ export type KDSpeechSynthParams = {
 */
 
 const synth = new KDSpeechSynth({
-  text: "text",
+  text: "This is KDSpeechSynthesisJS.",
   voice: 38,
   rate: 0.75,
   pitch: 0.5,
   onSpeakStart: (e: any) => console.log("start"),
   onSpeakEnd: (e: any) => console.log("end"),
 });
-
-document.getElementsByTagName("button")[0].onclick = () => {
-  synth.speak();
-};
