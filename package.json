@@ -1,7 +1,7 @@
 {
-  "name": "kdspeechsynth",
+  "name": "kdspeechsynth-master",
   "version": "1.0.0",
-  "description": "",
+  "description": "Class simplifying the use of Web Speech API.",
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
@@ -35,6 +35,11 @@
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint './src/**/*.{ts,tsx}' --fix"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "license": "MIT"
 }
